@@ -1,19 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>New Message</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link href="/output.css" rel="stylesheet">
 </head>
-<body>
-    <h1>New Message</h1>
-    <form method="POST" action="/new">
-        <label for="messageUser">Name:</label>
-        <input type="text" id="messageUser" name="messageUser" required>
-        <br>
-        <label for="messageText">Message:</label>
-        <textarea id="messageText" name="messageText" required></textarea>
-        <br>
-        <button type="submit">Submit</button>
+<body class="bg-gray-100 text-gray-800">
+  <div class="container mx-auto p-5">
+    <h1 class="text-2xl font-bold text-center text-green-600 mb-5">New Message</h1>
+    <form method="POST" action="/new" class="bg-white shadow-md rounded-lg p-6 space-y-4">
+      <div>
+        <label for="messageUser" class="block text-sm font-medium text-gray-700">Name</label>
+        <input type="text" id="messageUser" name="messageUser" required
+          class="mt-1 p-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-300">
+      </div>
+      <div>
+        <label for="messageText" class="block text-sm font-medium text-gray-700">Message</label>
+        <textarea id="messageText" name="messageText" rows="4" required
+          class="mt-1 p-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-300"></textarea>
+      </div>
+      <button type="submit" class="w-full py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700">
+        Submit
+      </button>
     </form>
+  </div>
 </body>
 </html>
