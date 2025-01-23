@@ -1,39 +1,54 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
+const pool = require('../db');
 
-const messages = [
-  { text: "Hi there!", user: "Amando", added: new Date() },
-  { text: "Hello World!", user: "Charles", added: new Date() },
-];
-
-// Home page
-router.get("/", (req, res) => {
-  res.render("index", { title: "Mini Messageboard", messages });
-});
-
-// New message form
-router.get("/new", (req, res) => {
-  res.render("form", { title: "Add a New Message" });
-});
-
-// Handle new message submission
-router.post("/new", (req, res) => {
-  const { messageUser, messageText } = req.body;
-  if (messageUser && messageText) {
-    messages.push({ text: messageText, user: messageUser, added: new Date() });
-  }
-  res.redirect("/");
-});
-
-// View message details
-router.get("/message/:id", (req, res) => {
-  const id = parseInt(req.params.id, 10);
-  const message = messages[id];
-  if (message) {
-    res.render("message", { title: "Message Details", message });
-  } else {
-    res.status(404).send("Message not found");
+// Get all messages
+router.get('/', async (req, res) => {
+  try {
+    const { rows: messages } = await pool.query('SELECT * FROM messages ORDER BY added DESC');
+    res.render('index', { title: 'Mini Messageboard', messages });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error retrieving messages');
   }
 });
+
+// Render the new message form
+router.get('/new', (req, res) => {
+  res.render('form', { title: 'Add a New Message' });
+});
+
+// Add a new message
+router.post('/new', async (req, res) => {
+  const { messageText, messageUser } = req.body;
+  try {
+    await pool.query('INSERT INTO messages (text, user_name) VALUES ($1, $2)', [messageText, messageUser]);
+    res.redirect('/');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error adding message');
+  }
+});
+
+// Get a single message by id
+router.get('/message/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Query the database for the message by ID
+    const result = await pool.query('SELECT * FROM messages WHERE id = $1', [id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).send('Message not found');
+    }
+
+    const message = result.rows[0];
+    res.render('message', { title: 'Message Details', message });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error retrieving message');
+  }
+});
+
 
 module.exports = router;

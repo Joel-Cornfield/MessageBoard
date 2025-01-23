@@ -18,7 +18,7 @@
             <span class="text-sm text-gray-500"><%= message.added.toLocaleTimeString() %>, <%= message.added.toDateString() %></span>
           </div>
           <div class="flex space-x-2">
-            <a href="/message/<%= index %>" class="text-sm text-blue-500 hover:underline">Open</a>
+            <a href="/message/<%= message.id %>" class="text-sm text-blue-500 hover:underline">Open</a>
           </div>
         </li>
       <% }) %>

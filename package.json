@@ -6,13 +6,18 @@
   "scripts": {
     "start": "node app.js",
     "build:css": "npx tailwindcss -i ./public/styles.css -o ./public/output.css --minify",
-    "build": "npm run build:css"
+    "build": "npm run build:css",
+    "db:init": "node scripts/init_db.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Joel-Cornfield/MessageBoard.git"
   },
-  "keywords": ["messageboard", "express", "tailwindcss"],
+  "keywords": [
+    "messageboard",
+    "express",
+    "tailwindcss"
+  ],
   "author": "Joel Cornfield",
   "license": "ISC",
   "type": "commonjs",
@@ -21,9 +26,11 @@
   },
   "homepage": "https://github.com/Joel-Cornfield/MessageBoard#readme",
   "dependencies": {
+    "autoprefixer": "^10.4.20",
+    "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
-    "autoprefixer": "^10.4.20",
+    "pg": "^8.13.1",
     "postcss": "^8.5.1",
     "tailwindcss": "^3.4.17"
   },
